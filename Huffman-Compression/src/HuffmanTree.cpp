@@ -27,50 +27,6 @@ namespace huffman {
 		m_Tree.push(node);
 	}
 
-	void HuffmanTree::Decode(const std::string& filename, const std::string& encodedFile) {
-
-		byte chunk;
-		std::vector<byte> packed;
-
-		if (!util::LoadFile(encodedFile, packed))
-			return;
-
-		std::vector<byte> unPacked;
-		unPacked.reserve(packed.size());
-
-		std::size_t count = 0;
-		std::size_t i = 0;
-
-		chunk = packed[i];
-
-		while (i < packed.size()) {
-
-			HuffmanNode* root = m_Tree.top();
-
-			while (root->left && root->right) {
-
-				if (count >= BYTE_SIZE) { 
-
-					chunk = packed[++i];
-					count = 0;
-				}
-
-				byte bit = chunk & (0x80 >> count++);
-
-				if (bit)
-					root = root->right;
-				else
-					root = root->left;
-			}
-
-			if (root->key == HUFFMAN_EOF)
-				break;
-			unPacked.push_back(root->key);
-		}
-
-		util::WriteFile(filename, unPacked);
-	}
-
 	void HuffmanTree::DeleteTree(HuffmanNode* root) {
 
 		if (!root)
