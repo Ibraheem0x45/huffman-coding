@@ -23,8 +23,6 @@ namespace huffman {
 		void BuildTree();
 		void Insert(HuffmanNode* node);
 
-		void Decode(const std::string& filename, const std::string& encodedFile);
-
 		void PushCode();
 
 		inline HuffmanNode* GetRoot() const { return m_Tree.top(); }
